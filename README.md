@@ -1,114 +1,167 @@
 # rockPaperScissors_js
 A javascript console rock paper scissors game - the odin project - foundations course  
 
+# Rock Paper Scissors Game - Pseudocode
 
+## 1. Understanding the Task
 
+### Rock Paper Scissors Rules-Based Game
 
-1. Understand the Task 
-    - Rock Paper Scissors Rules Based game 
-        - How to play the game? 
-            - Player selects 1 of 3 options: rock, paper, or scissors. 
-            - Computer does the same
-            - Rock beats Scissors 
-            - Scissors beats paper
-            - Paper beats rock 
-            - If both players select the same choice, it is a push(tie) and no one recieves a point
-        - This game will be played in the console.
-        - The game will end after a player receives 5 points (max 9 rounds). 
-        - The game will provide score updates after every round 
-2. Overall Plan 
-    - Player will type their selection; Computer will log their choice
-    - Result will be printed out to console 
-        - Winner will receive 1 point to their game score
-    - if one player has 5 points...
-        - game will end and winner will be announced along with the other players score
-    - Game will ask user if they want to play again 
+#### How to Play
+- Player selects 1 of 3 options: **rock**, **paper**, or **scissors**
+- Computer does the same
+- **Game Rules:**
+  - Rock beats Scissors
+  - Scissors beats Paper
+  - Paper beats Rock
+  - If both players select the same choice, it is a **push (tie)** and no one receives a point
 
-Pseudo Code 
--- how to handle varialbe scope ? 
-    - playGame()
-        ---- Returns Winner's Name "string" ----  
-        - will initialize variables 
-        - track points and round 
-        - decide winner & return string  
-        - **outside of playGame()** -> ask player if they would like to play 
-    - playRound()
-        --- return round winner "string" -----
+#### Game Details
+- This game will be played in the **console**
+- The game will end after a player receives **5 points** (max 9 rounds)
+- The game will provide score updates after every round
 
-SEQUENCE 
-    - ask player1 if they'd like to play a game of RPS
-    - set play_game = true 
-        - WHILE - condition - play_game == true 
-        if yes
-            - game_winner = playGame()
-            - print game_winner
-            - once game ends - ask p1 if they'd like to play a game 
-                - if yes 
-                    - set play_game = true
-                - if no 
-                    - set play_game = false 
-    if no 
-    - set play_game = false 
-    - exit program  
+---
 
+## 2. Overall Plan
 
-playGame()
-    set p1 score = 0
-    set p2 score = 0 
-    set round = 1 
+### Game Flow
+1. Player will type their selection; Computer will log their choice
+2. Result will be printed out to console
+   - Winner will receive 1 point to their game score
+3. If one player has 5 points:
+   - Game will end and winner will be announced along with the other player's score
+4. Game will ask user if they want to play again
 
-    - WHILE - condition p1 or p2 score !=== 5 
+---
 
-        print round # 
+## Pseudocode
 
-        round_winner = playRound()
+### Variable Scope Strategy
 
-        if round_winner === 'p1'
-            p1 score ++ 
-        else p2 score ++ 
+#### `playGame()`
+**Returns:** Winner's Name (string)
+
+- Will initialize variables
+- Track points and round
+- Decide winner & return string
+- **Outside of playGame()** → ask player if they would like to play
+
+#### `playRound()`
+**Returns:** Round winner (string)
+
+---
+
+## Sequence
+
+### Main Game Loop
+
+```
+- Ask player1 if they'd like to play a game of RPS
+- Set play_game = true
+
+WHILE play_game == true:
+    IF yes:
+        - game_winner = playGame()
+        - Print game_winner
+        - Once game ends - ask p1 if they'd like to play a game
+            IF yes:
+                - Set play_game = true
+            IF no:
+                - Set play_game = false
     
-        log/print variable values
-        - print out Round #
-        - print out p1 & p2 score 
-        - round ++ 
+    IF no:
+        - Set play_game = false
+        - Exit program
+```
+
+---
+
+## Function Definitions
+
+### `playGame()`
+
+```
+Initialize:
+    - Set p1_score = 0
+    - Set p2_score = 0
+    - Set round = 1
+
+WHILE (p1_score !== 5 AND p2_score !== 5):
+    - Print round number
     
-    print winner
-    return winner "string" 
+    - round_winner = playRound()
+    
+    IF round_winner === 'tie:
+        print - it was a tie! lets try that again 
+    ELSE IF round_winner === 'p1':
+        p1_score++
+        round ++ 
+    ELSE:
+        p2_score++
+        round++ 
+    
+    Log/Print variable values:
+        - Print Round #
+        - Print p1 & p2 scores
 
-        
-playRound()
+Print winner
+Return winner (string)
+```
 
-- print out "select rock, paper or scissors..."
-- get p1 and p2 choices 
-    - p1_choice = getPlayerChoice() 
+---
+
+### `playRound()`
+
+```
+- Print "Select rock, paper or scissors..."
+
+Get player choices:
+    - p1_choice = getPlayerChoice()
     - p2_choice = getComputerChoice()
-- decide winner 
+
+Decide winner:
     - round_winner = ''
-    - IF p1_choice == ROCK && p2_chocie == Scissors
+    
+    IF p1_choice == p2_choice:
+        round_winner = 'tie'
+    ELSE IF p1_choice == ROCK AND p2_choice == SCISSORS:
         round_winner = 'p1'
-      else if p1_choice == Scissors && p2_choice == Paper 
+    ELSE IF p1_choice == SCISSORS AND p2_choice == PAPER:
         round_winner = 'p1'
-      else if p1_choice == PAPER && p2_choice == ROCK 
+    ELSE IF p1_choice == PAPER AND p2_choice == ROCK:
         round_winner = 'p1'
-      else 
+    ELSE:
         round_winner = 'p2'
     
-    return round_winner "string"
+Return round_winner (string)
+```
 
+---
 
-getPlayerChoice() 
-    player_choice = accept user input (case-insensitive)
-        - use js prompt method
-    return player_choice 
+### `getPlayerChoice()`
 
-getComputerChoice()
-    computer_choice = ''
-    num = math.random(0-1)
-    if num <= .3334
-        computer_choice = 'ROCK' 
-    else if num >= .6667
-        computer_choice = 'SCISSORS'
-    else 
-        computer_choice = 'PAPER'
+```
+- player_choice = accept user input (case-insensitive)
+    - Use JS prompt method
 
-    return computer_choice "string" 
+Return player_choice (string)
+```
+
+---
+
+### `getComputerChoice()`
+
+```
+- computer_choice = ''
+- num = Math.random() (0-1)
+
+IF num <= 0.3334:
+    computer_choice = 'ROCK'
+ELSE IF num >= 0.6667:
+    computer_choice = 'SCISSORS'
+ELSE:
+    computer_choice = 'PAPER'
+
+Return computer_choice (string)
+```
