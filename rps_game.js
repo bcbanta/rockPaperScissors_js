@@ -52,7 +52,71 @@ function playRound(){
     return round_result;
 }
 
-let round_winner = playRound();
-console.log("Round Winner: " + round_winner);
+
+
+function playGame(){
+    let p1_score = 0;
+    let p2_score = 0;
+    let round = 1;
+    let winner = '';
+
+    while (p1_score !== 5 && p2_score !== 5){
+        console.log("Round: "+round);
+        console.log("Player 1 score: " + p1_score);
+        console.log("Player 2 score: " +p2_score);
+
+        let round_winner = playRound();
+
+        if (round_winner === 'tie') {
+            console.log("It was a tie! Let's try that again...")
+            round++; //keep track of the number of rounds/ties 
+        } else if (round_winner === 'p1') {
+            p1_score++;
+            round++;
+        } else if (round_winner ==='p2'){
+            p2_score++;
+            round++;
+        }
+    }
+
+    if (p1_score === 5){
+        // console.log("Player 1 wins!")
+        winner = 'p1';
+    } else {
+        // console.log("The computer wins!")
+        winner = 'p2'; 
+    }
+
+    return winner;
+}
+
+function askUserToPlay(){
+    let play_again = prompt("Do you want to play a game of Rock, Paper, Scissors? (YES,NO)(Y/N)");
+    console.log("user input: " + play_again);
+    play_again = play_again.toUpperCase();
+    return play_again;
+}
+
+// main game loop 
+
+// play game boolean 
+let play_game = true;
+
+while (play_game === true){
+    let play_again = askUserToPlay();
+    if (play_again.includes('Y')) {
+        console.clear();
+        let game_winner = playGame();
+        if (game_winner === 'p1'){
+            console.log("Player 1 Wins!")
+        } else {
+            console.log("Player 2 Wins!!")
+        }
+    } else {
+    play_game = false;
+    }
+}
+
+console.log("Thank you for playing! Goodbye!");
 
 
