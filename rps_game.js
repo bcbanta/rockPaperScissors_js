@@ -9,6 +9,7 @@ function getPlayerChoice(){
     let rps = prompt("Rock, Paper, Scissors...");
     console.log("user input: " + rps);
     let p1_choice = rps.toUpperCase();
+
     return p1_choice;
 }
 
@@ -28,10 +29,10 @@ function getComputerChoice(){
     return computer_choice;
 }
 
-function playRound(){
+function playRound(p1_choice){
     let round_result = '';
 
-    let p1_choice = getPlayerChoice();
+    // let p1_choice = getPlayerChoice();
     let p2_choice = getComputerChoice();
 
     console.log("p1 choice: " + p1_choice);
@@ -97,52 +98,43 @@ function askUserToPlay(){
     return play_again;
 }
 
+// rename to --- reset game 
+let play_game_button = document.querySelector("#play-game");
+play_game_button.addEventListener("click", (event)=> {
+    playGame()
+})
 
-let selection = document.querySelector('#selection'); 
-
-selection.addEventListener('click', (event) => {
-    let target = event.target;
-
-    switch(target.id) {
-        case 'rock':
-            console.log("ROCK was selected");
-            break;
-        case 'paper':
-            console.log("PAPER was selected");
-            break;
-        case 'scissors':
-            console.log("SCISSORS was selected");
-            break;
-    }
+let buttons = document.querySelectorAll("#selection button");
+buttons.forEach((button) => {
+    // add event listener to each button 
+    button.addEventListener("click", (event) => {
+        playRound(event.target.id)
+    })
 });
 
 
 
-
-
-
-
-
 // main game loop 
+let game_winner = playGame() // rename to reset_game, not sure on order just yet
 
-// play game boolean 
-// comment out to test button logic 
-// let play_game = true;
 
-// while (play_game === true){
-//     let play_again = askUserToPlay();
-//     if (play_again.includes('Y')) {
-//         console.clear();
-//         let game_winner = playGame();
-//         if (game_winner === 'p1'){
-//             console.log("Player 1 Wins!")
-//         } else {
-//             console.log("Player 2 Wins!!")
-//         }
-//     } else {
-//     play_game = false;
-//     }
-// }
+// original main game loop  -- no longer needed 
+let play_game = true;
+
+while (play_game === true){
+    let play_again = askUserToPlay();
+    if (play_again.includes('Y')) {
+        console.clear();
+        let game_winner = playGame();
+        if (game_winner === 'p1'){
+            console.log("Player 1 Wins!")
+        } else {
+            console.log("Player 2 Wins!!")
+        }
+    } else {
+    play_game = false;
+    }
+}
 
 console.log("Thank you for playing! Goodbye!");
 
