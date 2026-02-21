@@ -97,25 +97,52 @@ function askUserToPlay(){
     return play_again;
 }
 
+
+let selection = document.querySelector('#selection'); 
+
+selection.addEventListener('click', (event) => {
+    let target = event.target;
+
+    switch(target.id) {
+        case 'rock':
+            console.log("ROCK was selected");
+            break;
+        case 'paper':
+            console.log("PAPER was selected");
+            break;
+        case 'scissors':
+            console.log("SCISSORS was selected");
+            break;
+    }
+});
+
+
+
+
+
+
+
+
 // main game loop 
 
 // play game boolean 
-let play_game = true;
+// comment out to test button logic 
+// let play_game = true;
 
-while (play_game === true){
-    let play_again = askUserToPlay();
-    if (play_again.includes('Y')) {
-        console.clear();
-        let game_winner = playGame();
-        if (game_winner === 'p1'){
-            console.log("Player 1 Wins!")
-        } else {
-            console.log("Player 2 Wins!!")
-        }
-    } else {
-    play_game = false;
-    }
-}
+// while (play_game === true){
+//     let play_again = askUserToPlay();
+//     if (play_again.includes('Y')) {
+//         console.clear();
+//         let game_winner = playGame();
+//         if (game_winner === 'p1'){
+//             console.log("Player 1 Wins!")
+//         } else {
+//             console.log("Player 2 Wins!!")
+//         }
+//     } else {
+//     play_game = false;
+//     }
+// }
 
 console.log("Thank you for playing! Goodbye!");
 
