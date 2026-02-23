@@ -40,6 +40,7 @@ function playRound(p1_choice){
 
     if (p1_choice === p2_choice) {
         round_result = 'tie';
+
     } else if (p1_choice === 'ROCK' && p2_choice === 'SCISSORS'){
         round_result = 'p1'
     } else if (p1_choice === 'SCISSORS' && p2_choice === 'PAPER'){
@@ -50,9 +51,50 @@ function playRound(p1_choice){
         round_result = 'p2'
     };
 
-    return round_result;
+
+    if (round_result === 'tie') {
+        result_log = "Round " + round+" was a tie. Let's try that again..."
+        console.log("It was a tie! Let's try that again...")
+        round++; //keep track of the number of rounds/ties 
+    } else if (round_result === 'p1') {
+        p1_score++;
+        round++;
+        result_log = "Player 2 won round " + round+". Player 1 chose "+p1_choice+"; Player 2 chose "+p2_choice+"."
+        console.log("Player 1 won round " + round);
+    } else if (round_result ==='p2'){
+        p2_score++;
+        round++;
+        result_log = "Player 2 won round " + round+". Player 1 chose "+p1_choice+"; Player 2 chose "+p2_choice+"."
+        console.log("Player 2 won round " + round);
+    }
+
+    updateScoreboardContent(); // update scoreboard 
+    roundResultLog(); // add new line to result log 
+
+    // updateScore(round_result);
+
+    // console.log(++  " won round "+round+"! You chose "+p1_choice+" and player 2 chose " +p2_choice+".")
+    // return round_result;
 }
 
+
+function updateScore(winner){ /// logic moved to playRound() for result log tracker capability
+
+    if (winner === 'tie') {
+        console.log("It was a tie! Let's try that again...")
+        round++; //keep track of the number of rounds/ties 
+    } else if (winner === 'p1') {
+        p1_score++;
+        round++;
+        console.log("Player 1 won round " + round);
+    } else if (winner ==='p2'){
+        p2_score++;
+        round++;
+        console.log("Player 2 won round " + round);
+    }
+
+    updateScoreboardContent(); 
+};
 
 
 function playGame(){
@@ -98,12 +140,70 @@ function askUserToPlay(){
     return play_again;
 }
 
-// rename to --- reset game 
-let play_game_button = document.querySelector("#play-game");
-play_game_button.addEventListener("click", (event)=> {
-    playGame()
+
+function resetGame(){
+    round = 1;
+    p1_score = 0;
+    p2_score = 0; 
+
+
+    updateScoreboardContent(); 
+
+    // reset tracker 
+    let tracker = document.querySelector("#round-result-tracker");
+    tracker.innerHTML = "";
+
+    console.log("Resetting global variables.");
+    console.log("Round: " + round);
+    console.log("Player 1 Score: " + p1_score);
+    console.log("Player 2 Score: " + p2_score);
+    // leave room to clear tracker 
+    // Scoreboard will reflect current status of these 3 variables 
+
+
+};
+
+function updateScoreboardContent(){
+
+    let update_p1_score = document.querySelector("#player-1-score");
+    update_p1_score.textContent = p1_score;
+
+    let update_p2_score = document.querySelector("#player-2-score");
+    update_p2_score.textContent = p2_score;
+
+    let update_round = document.querySelector("#round");
+    update_round.textContent = round;
+};
+
+
+function roundResultLog() {
+    let tracker = document.querySelector("#round-result-tracker");
+    tracker_child = document.createElement("li")
+    tracker_child.textContent = result_log;
+
+    // append child to parent 
+    tracker.prepend(tracker_child);
+};
+
+
+
+// main game loop 
+
+// set global variables 
+let p1_score = 0;
+let p2_score = 0;
+let round = 1; 
+let result_log = '';
+
+updateScoreboardContent(p1_score, p2_score, round); 
+
+// reset game 
+let reset_game_button = document.querySelector("#reset-game");
+reset_game_button.addEventListener("click", (event)=> {
+    resetGame()
 })
 
+// play round 
 let buttons = document.querySelectorAll("#selection button");
 buttons.forEach((button) => {
     // add event listener to each button 
@@ -112,30 +212,27 @@ buttons.forEach((button) => {
     })
 });
 
+// let game_winner = playGame() // rename to reset_game, not sure on order just yet
 
 
-// main game loop 
-let game_winner = playGame() // rename to reset_game, not sure on order just yet
+// // original main game loop  -- no longer needed  
+// let play_game = true;
 
+// while (play_game === true){
+//     let play_again = askUserToPlay();
+//     if (play_again.includes('Y')) {
+//         console.clear();
+//         let game_winner = playGame();
+//         if (game_winner === 'p1'){
+//             console.log("Player 1 Wins!")
+//         } else {
+//             console.log("Player 2 Wins!!")
+//         }
+//     } else {
+//     play_game = false;
+//     }
+// }
 
-// original main game loop  -- no longer needed 
-let play_game = true;
-
-while (play_game === true){
-    let play_again = askUserToPlay();
-    if (play_again.includes('Y')) {
-        console.clear();
-        let game_winner = playGame();
-        if (game_winner === 'p1'){
-            console.log("Player 1 Wins!")
-        } else {
-            console.log("Player 2 Wins!!")
-        }
-    } else {
-    play_game = false;
-    }
-}
-
-console.log("Thank you for playing! Goodbye!");
+// console.log("Thank you for playing! Goodbye!");
 
 
